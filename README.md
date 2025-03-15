@@ -1,8 +1,8 @@
 # Automate
 
 Fait :
-- Lecture de l'automate 
--Affichage de l'automate
+- Lecture de l'automate
+- Affichage de l'automate
 
 
 A faire :
