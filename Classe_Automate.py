@@ -13,10 +13,6 @@ class Automate:
         for (source, symbol, destination) in transitions:
             self.add_transition(source, symbol, destination)
 
-        self.is_standard = False
-        self.is_deterministic = False
-        self.is_complete = False
-        self.is_minimized = False
 
     def add_transition(self, source, symbol, destination):
         """Adds a transition to the automaton."""
@@ -63,46 +59,90 @@ class Automate:
                 print(f"{state:<10}{symbol:<10}{destinations}")
 
     def display_table(self):
-        """Displays the automaton as a formatted transition table without using tabulate."""
+        """Displays the automaton as a formatted transition table, with states ordered by traversal."""
 
-        # Column headers
-        headers = ["", "State"] + self.alphabet
-
-        # Calculate column widths for proper alignment
-        col_widths = [max(len(header), 2) for header in headers]  # Start with header lengths
-
-        # Prepare row data
-        table_rows = []
+        # Step 1: Extract epsilon transitions from self.transitions
+        epsilon_transitions = []
         for state in self.states:
+            if state in self.transitions:
+                for symbol in self.transitions[state]:
+                    if symbol in {"eps", "ε", "epsilon", None}:
+                        for dest in self.transitions[state][symbol]:
+                            epsilon_transitions.append((state, dest))
+
+        # Step 2: Compute epsilon closure for each state
+        epsilon_closure_map = {
+            state: FileParser.compute_epsilon_closure({state}, epsilon_transitions) for state in self.states
+        }
+
+        # New: Determine state traversal order starting from initial states
+        ordered_states = []
+        visited = set()
+        queue = list(self.initial_states)  # Start with initial states
+
+        while queue:
+            current_state = queue.pop(0)
+            if current_state in visited:
+                continue
+
+            ordered_states.append(current_state)
+            visited.add(current_state)
+
+            # Add all destination states to the queue
+            for symbol in self.alphabet:
+                destinations = set()
+                for substate in epsilon_closure_map[current_state]:
+                    if substate in self.transitions and symbol in self.transitions[substate]:
+                        destinations.update(self.transitions[substate][symbol])
+
+                # Add unvisited destinations to the queue
+                for dest in destinations:
+                    if dest not in visited and dest not in queue:
+                        queue.append(dest)
+
+        # Add any remaining states that weren't reachable
+        for state in self.states:
+            if state not in visited:
+                ordered_states.append(state)
+
+        # Step 3: Prepare headers
+        headers = ["", "State"] + self.alphabet
+        col_widths = [max(len(header), 2) for header in headers]
+
+        # Step 4: Prepare table rows
+        table_rows = []
+        for state in ordered_states:  # Use the ordered states instead of self.states
             # Determine E, S, or ES
             markers = []
             if state in self.initial_states:
                 markers.append("E")
             if state in self.final_states:
                 markers.append("S")
-            state_label = "".join(markers) or " "  # Ensure non-empty space
+            state_label = "".join(markers) or " "
 
-            # Fill transitions
+            # Step 5: Fill transitions, considering epsilon closure
             row = [state_label, str(state)]  # First two columns
             for symbol in self.alphabet:
-                destinations = self.transitions.get(state, {}).get(symbol, ["-"])
-                destination_str = ",".join(map(str, destinations))
-                row.append(destination_str)
+                destinations = set()
 
-            # Update column widths dynamically
+                # Explore epsilon closure and fetch reachable states
+                for substate in epsilon_closure_map[state]:
+                    if substate in self.transitions and symbol in self.transitions[substate]:
+                        destinations.update(self.transitions[substate][symbol])
+
+                row.append(",".join(map(str, sorted(destinations))) if destinations else "-")
+
+            # Step 6: Adjust column width
             for i, value in enumerate(row):
                 col_widths[i] = max(col_widths[i], len(value))
 
             table_rows.append(row)
 
-        # Print header
+        # Step 7: Print the formatted table
         header_row = " | ".join(header.ljust(col_widths[i]) for i, header in enumerate(headers))
         print(header_row)
         print("-" * len(header_row))  # Separator line
-
-        # Print table rows
         for row in table_rows:
             print(" | ".join(row[i].ljust(col_widths[i]) for i in range(len(row))))
-
 
 
