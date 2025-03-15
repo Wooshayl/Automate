@@ -1,5 +1,6 @@
 import os
 
+
 class FileParser:
     """Class responsible for reading and extracting data from a properly formatted file for automaton creation."""
 
@@ -103,10 +104,7 @@ class FileParser:
 
     @staticmethod
     def read_automaton_file(file_number):
-        """Reads and parses an automaton from a file, performing validation.
-    Supports epsilon transitions (represented by "", "ε", "epsilon", or "eps").
-    :param filename : (str) The path to the automaton file.
-    :return : (dict) A dictionary containing the parsed automaton information."""
+        """Reads and parses an automaton from a file, performing validation."""
         file_path = f"automates/automaton{file_number}.txt"  # Dynamically create the file path
 
         try:
@@ -127,27 +125,114 @@ class FileParser:
             if len(lines) > 5 + num_transitions:
                 raise ValueError(f"File {file_number} has too many lines.")
 
-            transitions, epsilon_transitions = FileParser.parse_transitions(lines, 5, num_transitions, num_states)
+            # Parse transitions
+            transitions = []
+            epsilon_transitions = []
 
-            if epsilon_transitions:
-                epsilon_closure = FileParser.compute_epsilon_closure(set(initial_states), epsilon_transitions)
-                initial_states = list(epsilon_closure)
+            for i in range(num_transitions):
+                line_num = 5 + i
+                line = lines[line_num].strip()
+
+                # CORRECTION: Meilleure analyse des transitions pour supporter les états > 9
+                # Format attendu pour chaque transition: source symbol destination
+                parts = line.split()
+                if len(parts) != 3:
+                    # Si la ligne n'est pas au format "source symbol destination", essayer un autre format
+                    # Recherche d'un pattern pour extraire le symbole et les états
+
+                    # Trouvons d'abord tous les chiffres consécutifs au début (état source)
+                    source_digits = ""
+                    pos = 0
+                    while pos < len(line) and line[pos].isdigit():
+                        source_digits += line[pos]
+                        pos += 1
+
+                    if not source_digits:
+                        raise ValueError(f"Line {line_num + 1}: Cannot parse source state in '{line}'")
+
+                    # Le symbole commence à la position actuelle
+                    symbol_start = pos
+
+                    # Recherche des chiffres consécutifs à la fin (état destination)
+                    dest_digits = ""
+                    pos = len(line) - 1
+                    while pos >= symbol_start and line[pos].isdigit():
+                        dest_digits = line[pos] + dest_digits
+                        pos -= 1
+
+                    if not dest_digits:
+                        raise ValueError(f"Line {line_num + 1}: Cannot parse destination state in '{line}'")
+
+                    # Le symbole se trouve entre les deux états
+                    symbol = line[symbol_start:pos + 1]
+
+                    try:
+                        source = int(source_digits)
+                        destination = int(dest_digits)
+                    except ValueError:
+                        raise ValueError(f"Line {line_num + 1}: Invalid state format in '{line}'")
+                else:
+                    # Si la ligne est au format "source symbol destination"
+                    try:
+                        source = int(parts[0])
+                        symbol = parts[1]
+                        destination = int(parts[2])
+                    except ValueError:
+                        raise ValueError(f"Line {line_num + 1}: Invalid transition format in '{line}'")
+
+                # Vérifier les bornes des états
+                if source < 0 or source >= num_states:
+                    raise ValueError(f"Line {line_num + 1}: Source state {source} out of range")
+                if destination < 0 or destination >= num_states:
+                    raise ValueError(f"Line {line_num + 1}: Destination state {destination} out of range")
+
+                # Traiter les transitions epsilon
+                if symbol in {"ε", "epsilon", "eps", ""}:
+                    epsilon_transitions.append((source, destination))
+                    transitions.append((source, None, destination))
+                else:
+                    transitions.append((source, symbol, destination))
+
+            # Calculer les epsilon-fermetures pour tous les états
+            epsilon_closures = {}
+            for state in range(num_states):
+                epsilon_closures[state] = FileParser.compute_epsilon_closure({state}, epsilon_transitions)
+
+            # Mise à jour des états terminaux (un état est terminal si son epsilon-fermeture
+            # contient au moins un état terminal)
+            expanded_terminal_states = set()
+            for state in range(num_states):
+                if any(term_state in epsilon_closures[state] for term_state in terminal_states):
+                    expanded_terminal_states.add(state)
+
+            # Enrichir les transitions en considérant les epsilon-fermetures
+            enhanced_transitions = []
+            for source in range(num_states):
+                for symbol_char in [chr(97 + i) for i in range(num_symbols)]:  # a, b, c...
+                    # Pour chaque état accessible par epsilon depuis la source
+                    for epsilon_state in epsilon_closures[source]:
+                        # Chercher les transitions pour cet état et ce symbole
+                        for src, sym, dest in transitions:
+                            if src == epsilon_state and sym == symbol_char:
+                                enhanced_transitions.append((source, symbol_char, dest))
 
             return {
-                "num_automate": file_number,  # Store file number for reference
+                "num_automate": file_number,
                 "alphabet": [chr(97 + i) for i in range(num_symbols)],
                 "states": list(range(num_states)),
                 "initial_states": initial_states,
-                "terminal_states": terminal_states,
-                "transitions": transitions,
+                "terminal_states": list(expanded_terminal_states),
+                "transitions": enhanced_transitions + [(src, None, dest) for src, dest in epsilon_transitions],
                 "epsilon_transitions": epsilon_transitions,
                 "has_epsilon_transitions": len(epsilon_transitions) > 0,
+                "epsilon_closures": epsilon_closures
             }
 
         except FileNotFoundError:
             raise FileNotFoundError(f"File not found: '{file_path}'")
         except Exception as e:
             raise ValueError(f"Error reading file {file_number}: {e}")
+
     @staticmethod
     def print_automaton_info(automaton):
         """Prints a readable summary of the automaton's properties.
