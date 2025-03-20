@@ -31,6 +31,11 @@ class Automate:
         else:
             self.transitions[source][symbol] = [destination]
 
+    ################################################################################################################
+    ################################################################################################################
+    # Méthodes réutilisés plusieurs fois dans les différentes fonctions de la Class
+    ################################################################################################################
+    ################################################################################################################
     @classmethod
     def from_file(cls, file_number):
         """Creates an Automate instance from a numbered file."""
@@ -56,6 +61,11 @@ class Automate:
     def generate_state_name(states_tuple):
         return ''.join(str(state) for state in states_tuple)
 
+    ################################################################################################################
+    ################################################################################################################
+    # Fonctions d'affichages
+    ################################################################################################################
+    ################################################################################################################
     #Display all the information of an automaton
     def display_value(self):
         """Displays the automaton as a table."""
@@ -166,6 +176,41 @@ class Automate:
         for row in table_rows:
             print(" | ".join(row[i].ljust(col_widths[i]) for i in range(len(row))))
 
+
+
+
+    ################################################################################################################
+    ################################################################################################################
+    # Fonction qui vérifient si l'automate valide une condition (standard, complet, déterministe)
+    ################################################################################################################
+    ################################################################################################################
+
+    def is_standard(self):
+        """
+        Checks if the automaton is standardized.
+        An automaton is standardized if:
+        1. It has only one initial state
+        2. No transitions lead to the initial state
+
+        :return: bool - True if the automaton is standardized, False otherwise
+        """
+        # Check if there is exactly one initial state
+        if len(self.initial_states) != 1:
+            return False
+
+        initial_state = self.initial_states[0]
+
+        # Check if any transition leads to the initial state
+        for state in self.states:
+            if state in self.transitions:
+                for symbol in self.transitions[state]:
+                    if initial_state in self.transitions[state][symbol]:
+                        return False
+
+        return True
+
+
+
     def is_determinist(self):
         """
         Checks if the automaton is deterministic.
@@ -194,6 +239,80 @@ class Automate:
                         return False  # More than one transition for the same symbol
 
         return True
+
+
+    def is_complete(self):
+        """
+        Checks if the automaton is complete.
+        An automaton is complete if for each state and each symbol in the alphabet,
+        there exists at least one outgoing transition.
+
+        :return: bool - True if the automaton is complete, False otherwise
+        """
+        # For each state, check if there's a transition for each symbol in the alphabet
+        for state in self.states:
+            for symbol in self.alphabet:
+                # If the state has no transitions or no transition for this symbol
+                if state not in self.transitions or symbol not in self.transitions[state]:
+                    return False
+                # Or if the destination list for this symbol is empty
+                if not self.transitions[state][symbol]:
+                    return False
+
+        return True
+
+    ################################################################################################################
+    ################################################################################################################
+    # Fonctions qui modifient l'automate
+    ################################################################################################################
+    ################################################################################################################
+
+    def standardize(self):
+        """
+        Standardizes the automaton by creating a new initial state with epsilon transitions
+        to all original initial states, and ensuring no transitions lead to the initial state.
+
+        :return: A new standardized automaton
+        """
+        # If the automaton is already standardized, return a copy
+        if self.is_standard():
+            return self
+
+        # Create a new state name that doesn't exist in the current automaton
+        new_initial = "i"
+        while new_initial in self.states:
+            new_initial = new_initial + "i"
+
+        # Create a copy of the current states and add the new initial state
+        new_states = self.states.copy()
+        new_states.append(new_initial)
+
+        # Create new transitions list
+        new_transitions = []
+
+        # Add all existing transitions
+        for state in self.transitions:
+            for symbol in self.transitions[state]:
+                for destination in self.transitions[state][symbol]:
+                    new_transitions.append((state, symbol, destination))
+
+        # Add epsilon transitions from the new initial state to all original initial states
+        for initial_state in self.initial_states:
+            new_transitions.append((new_initial, None, initial_state))
+
+        # Create the new standardized automaton
+        standardized = Automate(
+            num_automate=self.num_automate,
+            alphabet=self.alphabet,
+            states=new_states,
+            initial_states=[new_initial],
+            final_states=self.final_states.copy(),
+            transitions=new_transitions
+        )
+
+        return standardized
+
+
 
     def determinize(self):
         """
@@ -327,25 +446,7 @@ class Automate:
             transitions=new_transitions
         )
 
-    def is_complete(self):
-        """
-        Checks if the automaton is complete.
-        An automaton is complete if for each state and each symbol in the alphabet,
-        there exists at least one outgoing transition.
 
-        :return: bool - True if the automaton is complete, False otherwise
-        """
-        # For each state, check if there's a transition for each symbol in the alphabet
-        for state in self.states:
-            for symbol in self.alphabet:
-                # If the state has no transitions or no transition for this symbol
-                if state not in self.transitions or symbol not in self.transitions[state]:
-                    return False
-                # Or if the destination list for this symbol is empty
-                if not self.transitions[state][symbol]:
-                    return False
-
-        return True
 
     # Fix for the complete() method in Classe_Automate.py
 
@@ -620,8 +721,8 @@ class Automate:
             automaton = self
 
         if not automaton.is_complete():
-            print("⚠ Warning: The automaton should be complete for complement to work correctly.")
-            print("⚠ Completing the automaton...")
+            print("Warning: The automaton should be complete for complement to work correctly.")
+            print("Completing the automaton...")
             automaton = automaton.complete()
 
 
