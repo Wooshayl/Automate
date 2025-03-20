@@ -44,58 +44,58 @@ class Menu:
                 print("Exiting the program. Goodbye!")
                 self.running = False
             else:
-                print("⚠ Invalid choice. Please enter a number between 1 and 9.")  # Modifié
+                print("Invalid choice. Please enter a number between 1 and 9.")  # Modifié
 
     def check_determinism(self):
         """Checks if the current automaton is deterministic."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         if self.current_automate.is_determinist():
-            print("✓ The automaton is deterministic.")
+            print("The automaton is deterministic.")
         else:
-            print("✗ The automaton is NOT deterministic.")
+            print("The automaton is NOT deterministic.")
 
     def determinize_automaton(self):
         """Determinizes the current automaton."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         if self.current_automate.is_determinist():
-            print("✓ The automaton is already deterministic.")
+            print("The automaton is already deterministic.")
             return
 
         print("Determinizing automaton...")
         self.current_automate = self.current_automate.determinize()
-        print("✓ Automaton successfully determinized.")
+        print("Automaton successfully determinized.")
         self.current_automate.display_table()
 
     def check_completeness(self):
         """Checks if the current automaton is complete."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         if self.current_automate.is_complete():
-            print("✓ The automaton is complete.")
+            print("The automaton is complete.")
         else:
-            print("✗ The automaton is NOT complete.")
+            print("The automaton is NOT complete.")
 
     def complete_automaton(self):
         """Completes the current automaton."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         if self.current_automate.is_complete():
-            print("✓ The automaton is already complete.")
+            print("The automaton is already complete.")
             return
 
         print("Completing automaton...")
         self.current_automate = self.current_automate.complete()
-        print("✓ Automaton successfully completed.")
+        print("Automaton successfully completed.")
         self.current_automate.display_table()
 
 
@@ -109,41 +109,41 @@ class Menu:
                 print("\nAutomaton successfully loaded.")
                 self.current_automate.display_table()
             else:
-                print(f"⚠ Error: Could not load automaton {file_number}.")
+                print(f"Error: Could not load automaton {file_number}.")
         except ValueError:
-            print("⚠ Invalid input. Please enter a valid number.")
+            print("Invalid input. Please enter a valid number.")
 
     def minimize_automaton(self):
         """Minimizes the current automaton."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         print("Minimizing automaton...")
         self.current_automate = self.current_automate.minimize()
-        print("✓ Automaton successfully minimized.")
+        print("Automaton successfully minimized.")
         self.current_automate.display_table()
 
     def test_word_recognition(self):
         """Tests if a word is recognized by the current automaton."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         word = input("Enter the word to test: ")
 
         if self.current_automate.recognize_word(word):
-            print(f"✓ The word '{word}' is accepted by the automaton.")
+            print(f"The word '{word}' is accepted by the automaton.")
         else:
-            print(f"✗ The word '{word}' is NOT accepted by the automaton.")
+            print(f"The word '{word}' is NOT accepted by the automaton.")
 
     def create_complement_automaton(self):
         """Creates the complement of the current automaton."""
         if not self.current_automate:
-            print("⚠ Please select an automaton first.")
+            print("Please select an automaton first.")
             return
 
         print("Creating complement automaton...")
         self.current_automate = self.current_automate.complement()
-        print("✓ Complement automaton successfully created.")
+        print("Complement automaton successfully created.")
         self.current_automate.display_table()
