@@ -69,7 +69,7 @@ class Automate:
         for state in self.states:
             if state in self.transitions:
                 for symbol in self.transitions[state]:
-                    if symbol in {None, "eps", "ε", "epsilon"}:
+                    if symbol in {None, "eps"}:
                         for dest in self.transitions[state][symbol]:
                             epsilon_transitions.append((state, dest))
 
@@ -110,7 +110,7 @@ class Automate:
 
         # Step 3: Prepare headers
         headers = ["", "State"] + self.alphabet
-        col_widths = [max(len(str(header)), 2) for header in headers]
+        col_widths = [len(str(header)) for header in headers]
 
         # Step 4: Prepare table rows
         table_rows = []
@@ -418,7 +418,7 @@ class Automate:
                 current_teta[state] = 0  # Non-final states
 
         # Store the history of partitions to detect cycles
-        partition_history = []
+        teta_history = []
 
         # Start the refinement process
         itr = 1
@@ -430,10 +430,10 @@ class Automate:
             # Add current partition to history to detect cycles
             # Convert all keys to strings before sorting to avoid type comparison issues
             partition_str = str(sorted([(str(k), v) for k, v in current_teta.items()]))
-            if partition_str in partition_history:
-                print("⚠ Cycle detected in partitions. Stopping.")
+            if partition_str in teta_history:
+                print("Cycle detected in partitions. Stopping.")
                 break
-            partition_history.append(partition_str)
+            teta_history.append(partition_str)
 
             # Create new partition based on current partition
             new_teta = {}
