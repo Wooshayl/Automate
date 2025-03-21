@@ -674,7 +674,8 @@ class Automate:
     def recognise_word(self, word):
         """
         Tests if a word is accepted by the automaton.
-        This implementation works for both deterministic and non-deterministic automata.
+        This implementation works for both deterministic and non-deterministic automata,
+        and properly handles epsilon transitions.
 
         Args:
             word (str): The word to test
@@ -682,8 +683,17 @@ class Automate:
         Returns:
             bool: True if the word is accepted, False otherwise
         """
-        # For non-deterministic automata, we need to track all possible current states
-        current_states = set(self.initial_states)
+        # Collect all epsilon transitions
+        epsilon_transitions = []
+        for state in self.states:
+            if state in self.transitions and None in self.transitions[state]:
+                for destination in self.transitions[state][None]:
+                    epsilon_transitions.append((state, destination))
+
+        # Compute epsilon closure of initial states
+        current_states = set()
+        for initial_state in self.initial_states:
+            current_states.update(FileParser.compute_epsilon_closure({initial_state}, epsilon_transitions))
 
         for letter in word:
             if letter not in self.alphabet:
@@ -700,7 +710,10 @@ class Automate:
             if not next_states:
                 return False
 
-            current_states = next_states
+            # Compute epsilon closure of the next states
+            current_states = set()
+            for state in next_states:
+                current_states.update(FileParser.compute_epsilon_closure({state}, epsilon_transitions))
 
         # Check if any current state is final
         return any(state in self.final_states for state in current_states)
