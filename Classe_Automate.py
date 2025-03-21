@@ -566,15 +566,8 @@ class Automate:
                 # For each symbol, add the class of the target state
                 for transition_letter in automaton.alphabet:
                     if state in automaton.transitions and transition_letter in automaton.transitions[state]:
-                        target_states = automaton.transitions[state][transition_letter]
-                        if target_states:
-                            target_state = target_states[0]  # Since it's deterministic
-                            key.append((transition_letter, current_teta[target_state]))
-                        else:
-                            key.append((transition_letter, -1))  # No transition
-                    else:
-                        key.append((transition_letter, -1))  # No transition
-
+                        target_state = automaton.transitions[state][transition_letter]
+                        key.append((transition_letter, current_teta[target_state[0]]))
 
                 # Store the signature as a tuple (hashable) and avoid double
                 key_tuple = tuple(key)
@@ -621,10 +614,10 @@ class Automate:
         # Create new states for each equivalence class
         new_states = []
         class_to_state = {}
-        for class_id in different_classes:
-            state_name = f"q{class_id}"
+        for class_number in different_classes:
+            state_name = f"q{class_number}"
             new_states.append(state_name)
-            class_to_state[class_id] = state_name
+            class_to_state[class_number] = state_name
 
         # Determine initial and final states
         new_initial_states = []
