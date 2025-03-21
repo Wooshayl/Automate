@@ -83,7 +83,7 @@ class Automate:
     def display_value(self):
         """Displays the automaton as a table."""
 
-        print(f"\n🔹 Automaton {self.num_automate}")
+        print(f"\nAutomaton {self.num_automate}")
         print(f"Alphabet: {self.alphabet}")
         print(f"States: {self.states}")
         print(f"Initial states: {self.initial_states}")
