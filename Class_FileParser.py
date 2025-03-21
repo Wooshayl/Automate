@@ -1,4 +1,4 @@
-# File that deals with the initial steps. Receive a normalized .txt and extract all information into a DICT
+# File that deals with the initial steps. Receive a normalised .txt and extract all information into a DICT
 
 class FileParser:
     """Class responsible for reading and extracting data from a properly formatted file for automaton creation."""
@@ -50,11 +50,10 @@ class FileParser:
         return states
 
     @staticmethod
-    def parse_transitions(list_transitions, start_line, num_transitions, num_states):
+    def parse_transitions(list_transitions, num_transitions, num_states):
         """Parses and validates transitions from a list of lines.
 
         :param list_transitions : (list[str]) The list of lines containing transition information.
-        :param start_line : (int) The starting line number for transitions.
         :param num_transitions : (int) The number of transitions to parse.
         :param num_states : (int) The total number of states in the automaton.
 
@@ -64,7 +63,7 @@ class FileParser:
         epsilon_transitions = []  # Store only the epsilon transitions
 
         for i in range(num_transitions):
-            line_num = start_line + i
+            line_num = 5 + i
             if line_num >= len(list_transitions):
                 raise ValueError(f"Line {line_num + 1}: Missing transition")
 
@@ -102,7 +101,8 @@ class FileParser:
         :return closure: set[int] The epsilon closure, in other words all the states that can be reached from the
         initial state without transitioning through letters of the alphabet"""
 
-        closure = states  # Duplicate the set of states to compute, the automatically have themselves in the closure
+        closure = states    # Duplicate the set of states to compute, the automatically have themselves in the closure
+                            # Use of sets instead of lists to easily avoid duplicates
 
         while True:
             new_states_found = False
@@ -200,7 +200,8 @@ class FileParser:
                 epsilon_closures[state] = FileParser.compute_epsilon_closure({state}, epsilon_transitions)
                 # Each state is a key, and each value is the complete set of states reachable from that state via epsilon transitions
 
-            expanded_terminal_states = set()  # Update the terminal states (if an epsilon closure has at least 1 terminal state then it is also terminal)
+            expanded_terminal_states = set()
+            # Update the terminal states (if an epsilon closure has at least 1 terminal state then it is also terminal)
             for state in range(num_states):  # Check through every possible state
                 closure = epsilon_closures[state]  # Get the epsilon closure for said state
 
@@ -214,7 +215,8 @@ class FileParser:
                     expanded_terminal_states.add(
                         state)  # Terminal state detected so add it to the set of new terminal states
 
-            enhanced_transitions = []  # Transitions only has each direct neighbour, enhanced allows to jump past the epsilons
+            enhanced_transitions = []
+            # 'Transitions' only has each direct neighbour, enhanced allows to jump past the epsilons
             for source in range(num_states):
                 alphabet_symbols = [chr(97 + i) for i in range(num_symbols)]  # Obtain every letter in our alphabet
 
@@ -237,7 +239,7 @@ class FileParser:
                 "states": list(range(num_states)),
                 "initial_states": initial_states,
                 "terminal_states": list(expanded_terminal_states),
-                "transitions": enhanced_transitions ,
+                "transitions": enhanced_transitions + [(source, None, destination) for source, destination in epsilon_transitions],
                 "epsilon_transitions": epsilon_transitions,
                 "has_epsilon_transitions": len(epsilon_transitions) > 0,
                 "epsilon_closures": epsilon_closures
