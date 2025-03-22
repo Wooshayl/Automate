@@ -1,0 +1,92 @@
+Trace Automate 34 
+
+Automaton 34 successfully loaded.
+  | State | a | b  
+-------------------
+E | 0     | 2 | 3,5
+  | 2     | - | 3  
+S | 3     | - | 3  
+S | 5     | - | 5  
+  | 1     | 2 | 3  
+  | 4     | - | 5  
+S | 6     | - | -  
+
+=== Automaton Details ===
+
+Automaton 34
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3, 4, 5, 6]
+Initial states: [0]
+Final states: [3, 5, 6]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+0         a         [2]
+0         b         [3, 5]
+0         ε         [1, 4]
+1         a         [2]
+1         b         [3]
+1         ε         [2]
+2         b         [3]
+3         b         [3]
+3         ε         [2, 6]
+4         b         [5]
+5         b         [5]
+5         ε         [4, 6]
+
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: Yes
+
+Automaton successfully determinised.
+  | State | a | b    
+---------------------
+E | 0124  | 2 | 23456
+  | 2     | - | 236  
+S | 23456 | - | 23456
+S | 236   | - | 236  
+
+
+
+Automaton successfully completed.
+  | State | a | b    
+---------------------
+E | 0124  | 2 | 23456
+  | 2     | P | 236  
+S | 23456 | P | 23456
+  | P     | P | P    
+S | 236   | P | 236  
+
+Minimisation : 
+Teta number 1: {'0124': 0, '2': 0, '23456': 1, '236': 1, 'P': 0}
+Teta number 2: {'0124': 0, '2': 0, '23456': 1, '236': 1, 'P': 2}
+Teta number 3: {'0124': 0, '2': 1, '23456': 2, '236': 2, 'P': 3}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q2
+  | q1    | q3 | q2
+S | q2    | q3 | q2
+  | q3    | q3 | q3
+
+Enter the word to test: a
+The word 'a' is NOT accepted by the automaton.
+
+
+Enter the word to test: b
+The word 'b' is accepted by the automaton.
+
+Complement automaton successfully created.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q2
+S  | q1    | q3 | q2
+   | q2    | q3 | q2
+S  | q3    | q3 | q3
+
+
+The automaton is already standardised.

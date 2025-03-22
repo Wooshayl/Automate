@@ -1,0 +1,87 @@
+Trace Automate 37
+
+Automaton 37 successfully loaded.
+   | State | a | b
+------------------
+ES | 0     | 1 | 3
+S  | 1     | 2 | 4
+S  | 3     | 1 | 0
+S  | 2     | - | 0
+S  | 4     | 1 | -
+
+=== Automaton Details ===
+
+Automaton 37
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3, 4]
+Initial states: [0]
+Final states: [0, 1, 2, 3, 4]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+4         a         [1]
+0         a         [1]
+0         b         [3]
+1         a         [2]
+1         b         [4]
+2         b         [0]
+3         a         [1]
+3         b         [0]
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: No
+Standardised: No
+
+The automaton is already deterministic.
+
+Automaton successfully completed.
+   | State | a | b
+------------------
+ES | 0     | 1 | 3
+S  | 1     | 2 | 4
+S  | 3     | 1 | 0
+S  | 2     | P | 0
+S  | 4     | 1 | P
+   | P     | P | P
+
+Minimisation : 
+Teta number 1: {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 'P': 0}
+Teta number 2: {0: 0, 1: 0, 3: 0, 2: 1, 4: 2, 'P': 3}
+Teta number 3: {0: 0, 3: 0, 1: 1, 2: 2, 4: 3, 'P': 4}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q0
+S  | q1    | q2 | q3
+S  | q2    | q4 | q0
+S  | q3    | q1 | q4
+   | q4    | q4 | q4
+
+Enter the word to test: a
+The word 'a' is accepted by the automaton.
+
+Enter the word to test: babb
+The word 'babb' is NOT accepted by the automaton.
+
+Complement automaton successfully created.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q0
+  | q1    | q2 | q3
+  | q2    | q4 | q0
+  | q3    | q1 | q4
+S | q4    | q4 | q4
+
+
+Automaton successfully standardised.
+  | State | a  | b 
+-------------------
+E | i     | q1 | q0
+  | q1    | q2 | q3
+  | q0    | q1 | q0
+  | q2    | q4 | q0
+  | q3    | q1 | q4
+S | q4    | q4 | q4

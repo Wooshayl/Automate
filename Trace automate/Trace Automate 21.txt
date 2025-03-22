@@ -1,0 +1,96 @@
+Trace Automate 21
+
+
+Automaton 21 successfully loaded.
+   | State | a | b | c | d
+--------------------------
+ES | 1     | 2 | - | - | -
+   | 2     | - | 3 | - | -
+   | 3     | - | - | 0 | -
+   | 0     | - | - | - | 1
+
+
+=== Automaton Details ===
+
+Automaton 21
+Alphabet: ['a', 'b', 'c', 'd']
+States: [0, 1, 2, 3]
+Initial states: [1]
+Final states: [1]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+3         c         [0]
+0         d         [1]
+1         a         [2]
+2         b         [3]
+
+
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: No
+Standardised: No
+
+The automaton is already deterministic.
+
+Automaton successfully completed.
+   | State | a | b | c | d
+--------------------------
+ES | 1     | 2 | P | P | P
+   | 2     | P | 3 | P | P
+   | P     | P | P | P | P
+   | 3     | P | P | 0 | P
+   | 0     | P | P | P | 1
+
+Minimisation : 
+Teta number 1: {0: 0, 1: 1, 2: 0, 3: 0, 'P': 0}
+Teta number 2: {0: 0, 1: 1, 2: 2, 3: 2, 'P': 2}
+Teta number 3: {0: 0, 1: 1, 2: 2, 'P': 2, 3: 3}
+Teta number 4: {0: 0, 1: 1, 2: 2, 3: 3, 'P': 4}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a  | b  | c  | d 
+------------------------------
+ES | q1    | q2 | q4 | q4 | q4
+   | q2    | q4 | q3 | q4 | q4
+   | q4    | q4 | q4 | q4 | q4
+   | q3    | q4 | q4 | q0 | q4
+   | q0    | q4 | q4 | q4 | q1
+
+
+Automaton successfully standardised.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | i     | q2 | q4 | q4 | q4
+  | q2    | q4 | q3 | q4 | q4
+  | q4    | q4 | q4 | q4 | q4
+  | q3    | q4 | q4 | q0 | q4
+  | q0    | q4 | q4 | q4 | q1
+S | q1    | q2 | q4 | q4 | q4
+
+
+
+The word 'abcdabcd' is accepted by the automaton.
+
+The word 'abcdabbd' is NOT accepted by the automaton.
+
+Complement automaton successfully created.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | iq1   | q2 | q4 | q4 | q4
+S | q2    | q4 | q3 | q4 | q4
+S | q4    | q4 | q4 | q4 | q4
+S | q3    | q4 | q4 | q0 | q4
+S | q0    | q4 | q4 | q4 | q1
+  | q1    | q2 | q4 | q4 | q4
+
+
+
+
+
+
+
+
+

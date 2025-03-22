@@ -1,0 +1,70 @@
+Trace Automate 7
+
+Automaton 7 successfully loaded.
+  | State | a  
+---------------
+E | 1     | 0,1
+S | 0     | -  
+
+
+=== Automaton Details ===
+
+ Automaton 7
+Alphabet: ['a']
+States: [0, 1]
+Initial states: [1]
+Final states: [0]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+1         a         [1, 0]
+
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: No
+
+
+Automaton successfully determinised.
+  | State | a 
+--------------
+E | 1     | 01
+S | 01    | 01
+
+
+The automaton is already complete.
+
+
+
+Minimisation : 
+Teta number 1: {'1': 0, '01': 1}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a 
+--------------
+E | q0    | q1
+S | q1    | q1
+
+
+Enter the word to test: 
+The word '' is NOT accepted by the automaton.
+
+
+Enter the word to test: aaaaa
+The word 'aaaaa' is accepted by the automaton.
+
+
+The automaton is already standardised.
+
+
+
+Complement automaton successfully created.
+   | State | a 
+---------------
+ES | q0    | q1
+   | q1    | q1
+
+
+

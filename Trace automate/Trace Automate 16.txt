@@ -1,0 +1,92 @@
+Trace Automate 16
+
+Automaton 16 successfully loaded.
+  | State | a   | b   | c   | d  
+---------------------------------
+E | 1     | 1,2 | -   | -   | -  
+  | 2     | -   | 2,3 | -   | -  
+  | 3     | -   | -   | 3,4 | -  
+  | 4     | -   | -   | -   | 0,4
+S | 0     | -   | -   | -   | -  
+
+=== Automaton Details ===
+
+Automaton 16
+Alphabet: ['a', 'b', 'c', 'd']
+States: [0, 1, 2, 3, 4]
+Initial states: [1]
+Final states: [0]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+4         d         [4, 0]
+1         a         [1, 2]
+2         b         [2, 3]
+3         c         [3, 4]
+
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: No
+
+Automaton successfully determinised.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | 1     | 12 | -  | -  | - 
+  | 12    | 12 | 23 | -  | - 
+  | 23    | -  | 23 | 34 | - 
+  | 34    | -  | -  | 34 | 04
+S | 04    | -  | -  | -  | 04
+
+
+Automaton successfully completed.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | 1     | 12 | P  | P  | P 
+  | 12    | 12 | 23 | P  | P 
+  | P     | P  | P  | P  | P 
+  | 23    | P  | 23 | 34 | P 
+  | 34    | P  | P  | 34 | 04
+S | 04    | P  | P  | P  | 04
+
+
+Minimisation : 
+Teta number 1: {'1': 0, '12': 0, '23': 0, '34': 0, '04': 1, 'P': 0}
+Teta number 2: {'1': 0, '12': 0, '23': 0, 'P': 0, '34': 1, '04': 2}
+Teta number 3: {'1': 0, '12': 0, 'P': 0, '23': 1, '34': 2, '04': 3}
+Teta number 4: {'1': 0, 'P': 0, '12': 1, '23': 2, '34': 3, '04': 4}
+Teta number 5: {'1': 0, '12': 1, '23': 2, '34': 3, '04': 4, 'P': 5}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | q0    | q1 | q5 | q5 | q5
+  | q1    | q1 | q2 | q5 | q5
+  | q5    | q5 | q5 | q5 | q5
+  | q2    | q5 | q2 | q3 | q5
+  | q3    | q5 | q5 | q3 | q4
+S | q4    | q5 | q5 | q5 | q4
+
+
+The automaton is already standardised.
+
+
+The word 'aaabbccccd' is accepted by the automaton.
+
+
+The word 'bac' is NOT accepted by the automaton.
+
+Complement automaton successfully created.
+   | State | a  | b  | c  | d 
+------------------------------
+ES | q0    | q1 | q5 | q5 | q5
+S  | q1    | q1 | q2 | q5 | q5
+S  | q5    | q5 | q5 | q5 | q5
+S  | q2    | q5 | q2 | q3 | q5
+S  | q3    | q5 | q5 | q3 | q4
+   | q4    | q5 | q5 | q5 | q4
+
+
+

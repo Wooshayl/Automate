@@ -1,0 +1,112 @@
+Trace Automate 9
+
+
+Automaton 9 successfully loaded.
+   | State | a | b
+------------------
+ES | 1     | 2 | -
+   | 2     | 3 | 3
+   | 3     | 4 | -
+   | 4     | 5 | 5
+   | 5     | 0 | -
+S  | 0     | 2 | -
+
+=== Automaton Details ===
+
+ Automaton 9
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3, 4, 5]
+Initial states: [1]
+Final states: [0, 1]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+5         a         [0]
+0         a         [2]
+1         a         [2]
+2         a         [3]
+2         b         [3]
+3         a         [4]
+4         a         [5]
+4         b         [5]
+
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: No
+Standardised: Yes
+
+
+The automaton is already deterministic.
+
+
+
+Automaton successfully completed.
+   | State | a | b
+------------------
+ES | 1     | 2 | P
+   | 2     | 3 | 3
+   | P     | P | P
+   | 3     | 4 | P
+   | 4     | 5 | 5
+   | 5     | 0 | P
+S  | 0     | 2 | P
+
+
+
+
+Minimisation : 
+Teta number 1: {0: 1, 1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 'P': 0}
+Teta number 2: {0: 0, 1: 0, 2: 1, 3: 1, 4: 1, 'P': 1, 5: 2}
+Teta number 3: {0: 0, 1: 0, 2: 1, 3: 1, 'P': 1, 4: 2, 5: 3}
+Teta number 4: {0: 0, 1: 0, 2: 1, 'P': 1, 3: 2, 4: 3, 5: 4}
+Teta number 5: {0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 'P': 5}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q5
+   | q1    | q2 | q2
+   | q5    | q5 | q5
+   | q2    | q3 | q5
+   | q3    | q4 | q4
+   | q4    | q0 | q5
+
+
+
+
+Automaton successfully standardised.
+  | State | a  | b 
+-------------------
+E | i     | q1 | q5
+  | q1    | q2 | q2
+  | q5    | q5 | q5
+  | q2    | q3 | q5
+  | q3    | q4 | q4
+  | q4    | q0 | q5
+S | q0    | q1 | q5
+
+Enter the word to test: aaaba
+The word 'aaaba' is accepted by the automaton.
+
+Enter the word to test: aaba
+The word 'aaba' is NOT accepted by the automaton.
+
+
+Cr
+
+
+Warning: The automaton should be complete for complement to work correctly.
+
+Complement automaton successfully created.
+  | State | a | b
+-----------------
+E | 1     | 2 | P
+S | 2     | 3 | 3
+  | P     | P | P
+S | 3     | 4 | P
+S | 4     | 5 | 5
+S | 5     | 0 | P
+  | 0     | 2 | P
+

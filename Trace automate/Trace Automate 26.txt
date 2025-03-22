@@ -1,0 +1,80 @@
+Trace Automate 26
+
+
+Automaton 26 successfully loaded.
+  | State | a | b
+-----------------
+E | 1     | 2 | 2
+  | 2     | 0 | 3
+  | 0     | - | -
+S | 3     | 3 | 3
+
+
+=== Automaton Details ===
+
+Automaton 26
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3]
+Initial states: [1]
+Final states: [3]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+3         a         [3]
+3         b         [3]
+1         a         [2]
+1         b         [2]
+2         a         [0]
+2         b         [3]
+
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: No
+Standardised: Yes
+
+
+The automaton is already deterministic.
+
+Automaton successfully completed.
+  | State | a | b
+-----------------
+E | 1     | 2 | 2
+  | 2     | 0 | 3
+  | 0     | P | P
+S | 3     | 3 | 3
+  | P     | P | P
+
+Minimisation : 
+Teta number 1: {0: 0, 1: 0, 2: 0, 3: 1, 'P': 0}
+Teta number 2: {0: 0, 1: 0, 'P': 0, 2: 1, 3: 2}
+Teta number 3: {0: 0, 'P': 0, 1: 1, 2: 2, 3: 3}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b 
+-------------------
+E | q1    | q2 | q2
+  | q2    | q0 | q3
+  | q0    | q0 | q0
+S | q3    | q3 | q3
+
+
+
+The automaton is already standardised.
+
+
+The word 'abaabababa' is accepted by the automaton.
+
+
+The word 'ba' is NOT accepted by the automaton.
+
+Complement automaton successfully created.
+   | State | a  | b 
+--------------------
+ES | q1    | q2 | q2
+S  | q2    | q0 | q3
+S  | q0    | q0 | q0
+   | q3    | q3 | q3
+
+

@@ -1,0 +1,74 @@
+Trace Automate 44 
+
+
+Automaton 44 successfully loaded.
+  | State | a   | b  
+---------------------
+E | 0     | 1,2 | 2  
+  | 1     | -   | 3  
+S | 2     | 3   | 2  
+S | 3     | 2,3 | 2,3
+
+
+=== Automaton Details ===
+
+Automaton 44
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3]
+Initial states: [0]
+Final states: [2, 3]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+3         a         [3, 2]
+3         b         [3, 2]
+0         a         [1, 2]
+0         b         [2]
+1         b         [3]
+2         a         [3]
+2         b         [2]
+
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: Yes
+
+
+Automaton successfully determinised.
+  | State | a  | b 
+-------------------
+E | 0     | 12 | 2 
+S | 12    | 3  | 23
+S | 2     | 3  | 2 
+S | 3     | 23 | 23
+S | 23    | 23 | 23
+
+
+The automaton is already complete.
+
+Minimisation : 
+Teta number 1: {'0': 0, '12': 1, '2': 1, '3': 1, '23': 1}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q1
+S | q1    | q1 | q1
+
+Enter the word to test: 
+The word '' is NOT accepted by the automaton.
+
+
+Enter the word to test: aaba
+The word 'aaba' is accepted by the automaton.
+
+Complement automaton successfully created.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q1
+   | q1    | q1 | q1
+
+
+The automaton is already standardised.

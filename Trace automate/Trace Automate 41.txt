@@ -1,0 +1,71 @@
+Trace Automate 41 
+
+Automaton 41 successfully loaded.
+  | State | a | b
+-----------------
+E | 0     | 1 | 4
+S | 1     | 2 | 3
+S | 4     | 5 | 5
+S | 2     | 2 | 3
+S | 3     | 5 | 5
+  | 5     | 5 | 5
+
+=== Automaton Details ===
+
+Automaton 41
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3, 4, 5]
+Initial states: [0]
+Final states: [1, 2, 3, 4]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+5         a         [5]
+5         b         [5]
+0         a         [1]
+0         b         [4]
+1         a         [2]
+1         b         [3]
+2         a         [2]
+2         b         [3]
+3         a         [5]
+3         b         [5]
+4         a         [5]
+4         b         [5]
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: Yes
+Standardised: Yes
+
+The automaton is already deterministic.
+The automaton is already complete.
+
+Minimisation : 
+Teta number 1: {0: 0, 1: 1, 2: 1, 3: 1, 4: 1, 5: 0}
+Teta number 2: {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 3}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q2
+S | q1    | q1 | q2
+S | q2    | q3 | q3
+  | q3    | q3 | q3
+
+Enter the word to test: aaaaaa
+The word 'aaaaaa' is accepted by the automaton.
+
+Enter the word to test: bbbbbba
+The word 'bbbbbba' is NOT accepted by the automaton.
+
+Complement automaton successfully created.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q2
+   | q1    | q1 | q2
+   | q2    | q3 | q3
+S  | q3    | q3 | q3
+
+The automaton is already standardised.

@@ -1,0 +1,108 @@
+Trace Automate 15
+
+Automaton 15 successfully loaded.
+  | State | a | b | c | d
+-------------------------
+E | 1     | 1 | 2 | 3 | 4
+  | 2     | 0 | 2 | 3 | 4
+  | 3     | 0 | 0 | 3 | 4
+S | 4     | 0 | 0 | 0 | 4
+  | 0     | 0 | - | - | -
+  | 5     | - | - | - | -
+
+=== Automaton Details ===
+
+Automaton 15
+Alphabet: ['a', 'b', 'c', 'd']
+States: [0, 1, 2, 3, 4, 5]
+Initial states: [1]
+Final states: [4]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+0         a         [0]
+1         a         [1]
+1         b         [2]
+1         c         [3]
+1         d         [4]
+2         a         [0]
+2         b         [2]
+2         c         [3]
+2         d         [4]
+3         a         [0]
+3         b         [0]
+3         c         [3]
+3         d         [4]
+4         a         [0]
+4         b         [0]
+4         c         [0]
+4         d         [4]
+
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: No
+Standardised: No
+
+
+The automaton is already deterministic.
+
+
+Automaton successfully completed.
+  | State | a | b | c | d
+-------------------------
+E | 1     | 1 | 2 | 3 | 4
+  | 2     | 0 | 2 | 3 | 4
+  | 3     | 0 | 0 | 3 | 4
+S | 4     | 0 | 0 | 0 | 4
+  | 0     | 0 | P | P | P
+  | P     | P | P | P | P
+  | 5     | P | P | P | P
+
+
+Minimisation : 
+Teta number 1: {0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 0, 'P': 0}
+Teta number 2: {0: 0, 5: 0, 'P': 0, 1: 1, 2: 1, 3: 1, 4: 2}
+Teta number 3: {0: 0, 5: 0, 'P': 0, 1: 1, 2: 2, 3: 3, 4: 4}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | q1    | q1 | q2 | q3 | q4
+  | q2    | q0 | q2 | q3 | q4
+  | q3    | q0 | q0 | q3 | q4
+S | q4    | q0 | q0 | q0 | q4
+  | q0    | q0 | q0 | q0 | q0
+
+Standardising automaton...
+Automaton successfully standardised.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | i     | q1 | q2 | q3 | q4
+  | q1    | q1 | q2 | q3 | q4
+  | q2    | q0 | q2 | q3 | q4
+  | q3    | q0 | q0 | q3 | q4
+S | q4    | q0 | q0 | q0 | q4
+  | q0    | q0 | q0 | q0 | q0
+
+
+The word 'cdd' is accepted by the automaton.
+
+The word 'aa' is NOT accepted by the automaton.
+
+
+Warning: The automaton should be deterministic for complement to work correctly.
+
+Complement automaton successfully created.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | iq1   | q1 | q2 | q3 | q4
+S | q1    | q1 | q2 | q3 | q4
+S | q2    | q0 | q2 | q3 | q4
+S | q3    | q0 | q0 | q3 | q4
+  | q4    | q0 | q0 | q0 | q4
+S | q0    | q0 | q0 | q0 | q0
+
+
+

@@ -1,0 +1,106 @@
+Trace Automate 35 
+
+Automaton 35 successfully loaded.
+  | State | a     | b
+---------------------
+E | 0     | 2,6,9 | -
+S | 9     | -     | -
+  | 2     | -     | 3
+  | 6     | -     | 7
+S | 3     | -     | -
+  | 7     | 6,9   | -
+  | 1     | 2     | -
+  | 4     | 6,9   | -
+  | 5     | 6     | -
+  | 8     | 9     | -
+S | 10    | -     | -
+
+
+=== Automaton Details ===
+
+Automaton 35
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Initial states: [0]
+Final states: [9, 10, 3]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+0         a         [2, 6, 9]
+0         ε         [1, 4]
+1         a         [2]
+2         b         [3]
+4         a         [9, 6]
+4         ε         [8, 5]
+5         a         [6]
+6         b         [7]
+7         a         [9, 6]
+7         ε         [5, 8]
+8         a         [9]
+3         ε         [10]
+9         ε         [10]
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: Yes
+
+Automaton successfully determinised.
+  | State  | a     | b     
+---------------------------
+E | 01458  | 10269 | -     
+S | 10269  | -     | 103578
+S | 103578 | 1069  | -     
+S | 1069   | -     | 578   
+  | 578    | 1069  | -    
+
+
+
+Automaton successfully completed.
+  | State  | a     | b     
+---------------------------
+E | 01458  | 10269 | P     
+S | 10269  | P     | 103578
+  | P      | P     | P     
+S | 103578 | 1069  | P     
+S | 1069   | P     | 578   
+  | 578    | 1069  | P   
+
+
+Minimisation : 
+Teta number 1: {'01458': 0, '10269': 1, '103578': 1, '1069': 1, '578': 0, 'P': 0}
+Teta number 2: {'01458': 0, '578': 0, '10269': 1, '103578': 2, '1069': 3, 'P': 4}
+Teta number 3: {'01458': 0, '10269': 1, '103578': 2, '1069': 3, '578': 4, 'P': 5}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q5
+S | q1    | q5 | q2
+  | q5    | q5 | q5
+S | q2    | q3 | q5
+S | q3    | q5 | q4
+  | q4    | q3 | q5
+
+
+
+Enter the word to test: a
+The word 'a' is accepted by the automaton.
+
+Enter the word to test: b
+The word 'b' is NOT accepted by the automaton.
+
+
+Complement automaton successfully created.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q5
+   | q1    | q5 | q2
+S  | q5    | q5 | q5
+   | q2    | q3 | q5
+   | q3    | q5 | q4
+S  | q4    | q3 | q5
+
+
+The automaton is already standardised.

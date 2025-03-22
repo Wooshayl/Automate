@@ -1,0 +1,92 @@
+Trace Automate 12
+
+
+Automaton 12 successfully loaded.
+   | State | a | b | c | d
+--------------------------
+ES | 1     | 1 | - | 0 | -
+   | 0     | - | 0 | - | 1
+
+
+=== Automaton Details ===
+
+ Automaton 12
+Alphabet: ['a', 'b', 'c', 'd']
+States: [0, 1]
+Initial states: [1]
+Final states: [1]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+1         a         [1]
+1         c         [0]
+0         b         [0]
+0         d         [1]
+
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: No
+Standardised: No
+
+The automaton is already deterministic.
+
+
+
+
+Automaton successfully completed.
+   | State | a | b | c | d
+--------------------------
+ES | 1     | 1 | P | 0 | P
+   | P     | P | P | P | P
+   | 0     | P | 0 | P | 1
+
+
+
+
+Minimisation : 
+Teta number 1: {0: 0, 1: 1, 'P': 0}
+Teta number 2: {0: 0, 1: 1, 'P': 2}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a  | b  | c  | d 
+------------------------------
+ES | q1    | q1 | q2 | q0 | q2
+   | q2    | q2 | q2 | q2 | q2
+   | q0    | q2 | q0 | q2 | q1
+
+
+
+
+Automaton successfully standardised.
+  | State | a  | b  | c  | d 
+-----------------------------
+E | i     | q1 | q2 | q0 | q2
+S | q1    | q1 | q2 | q0 | q2
+  | q2    | q2 | q2 | q2 | q2
+  | q0    | q2 | q0 | q2 | q1
+
+Enter the word to test: 
+The word '' is accepted by the automaton.
+
+
+The word 'cab' is NOT accepted by the automaton.
+
+
+
+Warning: The automaton should be complete for complement to work correctly.
+
+
+Complement automaton successfully created.
+  | State | a | b | c | d
+-------------------------
+E | 1     | 1 | P | 0 | P
+  | P     | P | P | P | P
+S | 0     | P | 0 | P | 1
+
+
+
+
+
+

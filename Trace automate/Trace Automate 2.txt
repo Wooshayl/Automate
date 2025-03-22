@@ -1,0 +1,71 @@
+Trace Automate 2
+
+
+Automaton 2 successfully loaded.
+   | State | a
+--------------
+ES | 0     | 0
+
+
+
+=== Automaton Details ===
+
+ Automaton 2
+Alphabet: ['a']
+States: [0]
+Initial states: [0]
+Final states: [0]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+0         a         [0]
+
+
+
+=== Automaton Properties ===
+Deterministic: Yes
+Complete: Yes
+Standardised: No
+
+The automaton is already deterministic.
+
+The automaton is already complete.
+
+
+Minimisation : 
+Teta number 1: {0: 1}
+Teta number 2: {0: 0}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a 
+---------------
+ES | q0    | q0
+
+
+
+Enter the word to test: aaa
+The word 'aaa' is accepted by the automaton.
+
+Enter the word to test: b
+Error: Symbol 'b' is not in the alphabet!
+The word 'b' is NOT accepted by the automaton.
+
+Enter the word to test: 
+The word '' is accepted by the automaton.
+
+
+Complement automaton successfully created.
+  | State | a 
+--------------
+E | q0    | q0
+
+
+
+Automaton successfully standardised.
+  | State | a
+-------------
+E | i     | 0
+S | 0     | 0
+
+

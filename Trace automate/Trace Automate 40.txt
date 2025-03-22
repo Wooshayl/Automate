@@ -1,0 +1,83 @@
+Trace Automate 40
+
+Automaton 40 successfully loaded.
+   | State | a   | b  
+----------------------
+ES | 0     | -   | 1,2
+E  | 1     | 0,2 | 2  
+S  | 2     | 0   | -  
+
+=== Automaton Details ===
+
+Automaton 40
+Alphabet: ['a', 'b']
+States: [0, 1, 2]
+Initial states: [0, 1]
+Final states: [0, 2]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+2         a         [0]
+0         b         [1, 2]
+1         a         [0, 2]
+1         b         [2]
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: No
+
+Automaton successfully determinised.
+   | State | a  | b 
+--------------------
+ES | 01    | 02 | 12
+S  | 02    | 0  | 12
+S  | 12    | 02 | 2 
+S  | 0     | -  | 12
+S  | 2     | 0  | - 
+
+
+Automaton successfully completed.
+   | State | a  | b 
+--------------------
+ES | 01    | 02 | 12
+S  | 02    | 0  | 12
+S  | 12    | 02 | 2 
+S  | 0     | P  | 12
+S  | 2     | 0  | P 
+   | P     | P  | P 
+
+
+Minimisation : 
+Teta number 1: {'01': 1, '02': 1, '12': 1, '0': 1, '2': 1, 'P': 0}
+Teta number 2: {'01': 0, '02': 0, '12': 0, '0': 1, '2': 2, 'P': 3}
+Teta number 3: {'01': 0, '02': 1, '12': 2, '0': 3, '2': 4, 'P': 5}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q2
+S  | q1    | q3 | q2
+S  | q2    | q1 | q4
+S  | q3    | q5 | q2
+S  | q4    | q3 | q5
+   | q5    | q5 | q5
+
+Enter the word to test: a
+The word 'a' is accepted by the automaton.
+
+Enter the word to test: bbbba
+The word 'bbbba' is NOT accepted by the automaton.
+
+Complement automaton successfully created.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q2
+  | q1    | q3 | q2
+  | q2    | q1 | q4
+  | q3    | q5 | q2
+  | q4    | q3 | q5
+S | q5    | q5 | q5
+
+The automaton is already standardised.

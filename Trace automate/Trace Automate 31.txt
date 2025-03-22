@@ -1,0 +1,109 @@
+Trace Automate 31
+
+Automaton 31 successfully loaded.
+   | State | a | b  
+--------------------
+ES | 0     | 2 | 3,5
+   | 2     | 3 | 1  
+S  | 3     | - | 3  
+   | 5     | - | 6  
+S  | 1     | 2 | 3  
+S  | 6     | - | 5  
+   | 4     | - | 5  
+S  | 7     | - | -  
+
+
+=== Automaton Details ===
+
+Automaton 31
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3, 4, 5, 6, 7]
+Initial states: [0]
+Final states: [0, 1, 3, 6, 7]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+0         a         [2]
+0         b         [3, 5]
+0         ε         [1, 4]
+1         a         [2]
+1         b         [3]
+1         ε         [3]
+2         a         [3]
+2         b         [1]
+3         b         [3]
+3         ε         [7]
+4         b         [5]
+5         b         [6]
+6         b         [5]
+6         ε         [4, 7]
+
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: Yes
+
+Automaton successfully determinised.
+   | State | a  | b   
+----------------------
+ES | 01347 | 2  | 357 
+   | 2     | 37 | 137 
+S  | 357   | -  | 3467
+S  | 37    | -  | 37  
+S  | 137   | 2  | 37  
+S  | 3467  | -  | 357 
+
+
+Automaton successfully completed.
+   | State | a  | b   
+----------------------
+ES | 01347 | 2  | 357 
+   | 2     | 37 | 137 
+S  | 357   | P  | 3467
+S  | 37    | P  | 37  
+S  | 137   | 2  | 37  
+   | P     | P  | P   
+S  | 3467  | P  | 357 
+
+
+
+Minimisation : 
+Teta number 1: {'01347': 1, '2': 0, '357': 1, '37': 1, '137': 1, '3467': 1, 'P': 0}
+Teta number 2: {'01347': 0, '357': 0, '37': 0, '137': 0, '3467': 0, '2': 1, 'P': 2}
+Teta number 3: {'01347': 0, '137': 0, '2': 1, '357': 2, '37': 2, '3467': 2, 'P': 3}
+Minimisation completed : 
+Automaton successfully minimised.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q2
+   | q1    | q2 | q0
+S  | q2    | q3 | q2
+   | q3    | q3 | q3
+
+
+Enter the word to test: bb
+The word 'bb' is accepted by the automaton.
+
+Enter the word to test: aaba
+The word 'aaba' is NOT accepted by the automaton.
+
+
+Complement automaton successfully created.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q2
+S | q1    | q2 | q0
+  | q2    | q3 | q2
+S | q3    | q3 | q3
+
+
+Automaton successfully standardised.
+  | State | a  | b 
+-------------------
+E | i     | q1 | q2
+S | q1    | q2 | q0
+  | q2    | q3 | q2
+  | q0    | q1 | q2
+S | q3    | q3 | q3

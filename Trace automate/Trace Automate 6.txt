@@ -1,0 +1,83 @@
+Trace Automates 6
+
+
+Automaton 6 successfully loaded.
+  | State | a | b
+-----------------
+E | 1     | 2 | -
+E | 3     | - | 0
+S | 2     | - | -
+S | 0     | - | -
+
+
+
+ Automaton 6
+Alphabet: ['a', 'b']
+States: [0, 1, 2, 3]
+Initial states: [1, 3]
+Final states: [0, 2]
+
+Transitions:
+State     Symbol    Next States
+-------------------------------
+3         b         [0]
+1         a         [2]
+
+
+
+=== Automaton Properties ===
+Deterministic: No
+Complete: No
+Standardised: No
+
+
+Automaton successfully determinised.
+  | State | a | b
+-----------------
+E | 13    | 2 | 0
+S | 2     | - | -
+S | 0     | - | -
+
+
+
+Automaton successfully completed.
+  | State | a | b
+-----------------
+E | 13    | 2 | 0
+S | 2     | P | P
+S | 0     | P | P
+  | P     | P | P
+
+
+
+Minimisation : 
+Teta number 1: {'13': 0, '2': 1, '0': 1, 'P': 0}
+Teta number 2: {'13': 0, '2': 1, '0': 1, 'P': 2}
+Minimisation completed : 
+Automaton successfully minimised.
+  | State | a  | b 
+-------------------
+E | q0    | q1 | q1
+S | q1    | q2 | q2
+  | q2    | q2 | q2
+
+Enter the word to test: 
+The word '' is NOT accepted by the automaton.
+
+Enter the word to test: a
+The word 'a' is accepted by the automaton.
+
+
+The automaton is already standardised.
+
+
+
+Complement automaton successfully created.
+   | State | a  | b 
+--------------------
+ES | q0    | q1 | q1
+   | q1    | q2 | q2
+S  | q2    | q2 | q2
+
+
+
