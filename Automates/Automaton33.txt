@@ -1,0 +1,23 @@
+3
+13
+1 0
+1 12
+18
+0eps1
+0eps7
+1eps2
+1eps4
+2a3
+3eps5
+4b4
+4eps5
+5c6
+6eps12
+7eps8
+7eps9
+8a8
+8eps11
+9b10
+10eps11
+11c11
+11eps12
