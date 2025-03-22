@@ -1,4 +1,4 @@
-Trace automate 43
+Trace Automate 43
 
 Automaton 43 successfully loaded.
   | State | a | b  
