@@ -132,7 +132,6 @@ class Menu:
             print("The automaton is already deterministic.")
             return
 
-        print("Determinising automaton...")
         self.current_automate = self.current_automate.determinise()
         print("Automaton successfully determinised.")
         self.current_automate.display_table()
@@ -143,14 +142,12 @@ class Menu:
             print("The automaton is already complete.")
             return
 
-        print("Completing automaton...")
         self.current_automate = self.current_automate.complete()
         print("Automaton successfully completed.")
         self.current_automate.display_table()
 
     def minimise_automaton(self):
         """Minimises the current automaton."""
-        print("Minimising automaton...")
         self.current_automate = self.current_automate.minimise()
         print("Automaton successfully minimised.")
         self.current_automate.display_table()
@@ -166,7 +163,6 @@ class Menu:
 
     def create_complement_automaton(self):
         """Creates the complement of the current automaton."""
-        print("Creating complement automaton...")
         self.current_automate = self.current_automate.complement()
         print("Complement automaton successfully created.")
         self.current_automate.display_table()
@@ -177,7 +173,6 @@ class Menu:
             print("The automaton is already standardised.")
             return
 
-        print("Standardising automaton...")
         self.current_automate = self.current_automate.standardise()
         print("Automaton successfully standardised.")
         self.current_automate.display_table()
