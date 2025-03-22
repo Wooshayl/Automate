@@ -94,6 +94,12 @@ class Menu:
 
         try:
             file_number = int(input("Enter the automaton number: "))
+
+            # Validate that file_number is within the acceptable range
+            if file_number < 1 or file_number >= 45:
+                print("Error: Automaton number must be at least 1 and less than 45.")
+                return
+
             automaton = Automate.from_file(file_number)
 
             if automaton:
