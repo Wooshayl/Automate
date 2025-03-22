@@ -1,0 +1,35 @@
+3
+22
+1 0
+1 21
+30
+0eps1
+0eps10
+1eps2
+1eps6
+2eps3
+2eps5
+3b4
+4eps3
+4eps5
+5eps8
+6a7
+7eps8
+8c9
+9eps21
+10eps11
+10eps15
+11eps12
+11eps14
+12a13
+13eps12
+13eps14
+14eps17
+15b16
+16eps17
+17eps18
+17eps20
+18c19
+19eps18
+19eps20
+20eps21
