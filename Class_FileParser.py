@@ -225,7 +225,6 @@ class FileParser:
                             if transition_source == epsilon_reachable_state and transition_symbol == symbol_char:
                                 # Add a new enhanced transition from our original source state directly to this destination via symbol_char
                                 enhanced_transitions.append((source, symbol_char, transition_dest))
-            print(enhanced_transitions)
             return {
                 "num_automate": file_number,
                 "alphabet": [chr(97 + i) for i in range(num_symbols)],
