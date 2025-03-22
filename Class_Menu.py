@@ -83,6 +83,7 @@ class Menu:
 
     def _check_automaton_selected(self):
         """Checks if an automaton is selected and informs the user if not."""
+
         if not self.current_automate:
             print("Please select an automaton first (Option 1 in the main menu).")
             return False
@@ -90,6 +91,7 @@ class Menu:
 
     def select_automaton(self):
         """Prompts the user to enter an automaton number and displays it."""
+
         try:
             file_number = int(input("Enter the automaton number: "))
             automaton = Automate.from_file(file_number)
@@ -107,11 +109,13 @@ class Menu:
 
     def display_automaton_details(self):
         """Displays detailed information about the current automaton."""
+
         print("\n=== Automaton Details ===")
         self.current_automate.display_value()
 
     def check_automaton_properties(self):
         """Checks if the current automaton is deterministic, complete, and standardised."""
+
         print("\n=== Automaton Properties ===")
 
         # Check if deterministic
@@ -128,6 +132,7 @@ class Menu:
 
     def determinise_automaton(self):
         """Determinises the current automaton."""
+
         if self.current_automate.is_determinist():
             print("The automaton is already deterministic.")
             return
@@ -138,6 +143,7 @@ class Menu:
 
     def complete_automaton(self):
         """Completes the current automaton."""
+
         if self.current_automate.is_complete():
             print("The automaton is already complete.")
             return
@@ -148,12 +154,14 @@ class Menu:
 
     def minimise_automaton(self):
         """Minimises the current automaton."""
+
         self.current_automate = self.current_automate.minimise()
         print("Automaton successfully minimised.")
         self.current_automate.display_table()
 
     def test_word_recognition(self):
         """Tests if a word is recognised by the current automaton."""
+
         word = input("Enter the word to test: ")
 
         if self.current_automate.recognise_word(word):
@@ -163,12 +171,14 @@ class Menu:
 
     def create_complement_automaton(self):
         """Creates the complement of the current automaton."""
+
         self.current_automate = self.current_automate.complement()
         print("Complement automaton successfully created.")
         self.current_automate.display_table()
 
     def standardise_automaton(self):
         """Standardises the current automaton."""
+
         if self.current_automate.is_standard():
             print("The automaton is already standardised.")
             return

@@ -189,7 +189,7 @@ class FileParser:
                 if destination < 0 or destination >= num_states:
                     raise ValueError(f"Line {line_num + 1}: Destination state {destination} out of range")
 
-                if symbol in {"ε", "eps", ""}:
+                if symbol in {"ε", "eps"}:
                     epsilon_transitions.append((source, destination))
                     transitions.append((source, None, destination))
                 else:
@@ -205,34 +205,27 @@ class FileParser:
             for state in range(num_states):  # Check through every possible state
                 closure = epsilon_closures[state]  # Get the epsilon closure for said state
 
-                has_terminal_state = False  # Consider that it doesn't have a single final state in the closure
-                for terminal_state in terminal_states:  # Filter through every terminal state in the automaton
-                    if terminal_state in closure:  # If a single terminal state is found in our state's closure, break
-                        has_terminal_state = True
-                        break
-
-                if has_terminal_state:
-                    expanded_terminal_states.add(
-                        state)  # Terminal state detected so add it to the set of new terminal states
+                for terminal_state in terminal_states:
+                    if terminal_state in closure:   # If a terminal state in an epsilon closure
+                        expanded_terminal_states.add(state) # Then that state is also now terminal
+                        break   # No need to check through the rest of the state's closure
 
             enhanced_transitions = []
             # 'Transitions' only has each direct neighbour, enhanced allows to jump past the epsilons
-            for source in range(num_states):
-                alphabet_symbols = [chr(97 + i) for i in range(num_symbols)]  # Obtain every letter in our alphabet
+            alphabet_symbols = [chr(97 + i) for i in range(num_symbols)]  # Obtain every letter in our alphabet, lowercase characters start at 97
 
-                for symbol_char in alphabet_symbols:  # For each letter in our automaton's alphabet
-                    states_reachable_by_epsilon = epsilon_closures[
-                        source]  # Get all states reachable from source via epsilon transitions
+            for source in range(num_states):            # Repeat the entire process for every state
+                for symbol_char in alphabet_symbols:    # Check for each letter in our alphabet
+                    states_reachable_by_epsilon = epsilon_closures[source]  # Get all states reachable from source via epsilon transitions
 
                     for epsilon_reachable_state in states_reachable_by_epsilon:  # For each state reachable by epsilon transitions
+                        for transition_source, transition_symbol, transition_dest in transitions:
 
-                        for transition_source, transition_symbol, transition_dest in transitions:  # Check all transitions in the automaton
-
-                            # If we find a transition from an epsilon-reachable state with the current symbol
+                            # If we find a transition from an epsilon-reachable state to a state using the current symbol
                             if transition_source == epsilon_reachable_state and transition_symbol == symbol_char:
-                                # Add a new enhanced transition from our original source state
+                                # Add a new enhanced transition from our original source state directly to this destination via symbol_char
                                 enhanced_transitions.append((source, symbol_char, transition_dest))
-
+            print(enhanced_transitions)
             return {
                 "num_automate": file_number,
                 "alphabet": [chr(97 + i) for i in range(num_symbols)],

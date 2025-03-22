@@ -58,18 +58,23 @@ class Automate:
     def function_to_sort(items):
         """ Create a new sorted list that can deal with types INT and Str.
         We used sorted since we had issues dealing with our sink state P
+        The sorting is done by converting all items to strings first, we mostly use it to sort our sets into new lists
 
-        :param items:
-        :return:   """
+        :param items: Usually sets that need to be sorted
+        :return: A new list containing the original items in sorted order """
 
         return sorted(items, key=str)
 
     @staticmethod
     def generate_state_name(states_tuple):
-        """ ????
+        """ Generate a name for a composite state by concatenating the names of individual states.
 
-        :param states_tuple: Tuple(INT, INT)
-        :return: """
+        This function is primarily used during the determinization process to create names
+        for new states that represent multiple states from the original automaton.
+        For example, a tuple of states (1, 2, 3) would generate the name '123'.
+
+        :param states_tuple: Tuple of state identifiers (can be integers or strings)
+        :return: A string representing the combined state name """
 
         combined_name = ""  # Start with an empty text string
         for state in states_tuple:  # Go through each state in the tuple
@@ -77,7 +82,7 @@ class Automate:
         return combined_name
 
 ########################################################################################################################
-    # Fonctions d'affichages
+    # Display functions
 ########################################################################################################################
 
     def display_value(self):
@@ -100,7 +105,7 @@ class Automate:
     def display_table(self):
         """Displays the automaton as a formatted transition table, with states ordered by traversal."""
 
-    #-------------------- Step 1: Extract epsilon transitions from self.transitions --------------------#
+        # -------------------------- Step 1: Extract epsilon transitions from self.transitions ------------------------#
         epsilon_transitions = []
         for state in self.states:
             if state in self.transitions:
@@ -109,12 +114,12 @@ class Automate:
                         for finish_state in self.transitions[state][symbol]:
                             epsilon_transitions.append((state, finish_state))
 
-    #### Step 2: Compute epsilon closure for each state
+        # ----------------------------- Step 2: Compute epsilon closure for each state --------------------------------#
         list_epsilon_cloture = {}
-        for state in self.states :
+        for state in self.states:
             list_epsilon_cloture[state] = FileParser.compute_epsilon_closure({state}, epsilon_transitions)
 
-    #### New: Determine state traversal order starting from initial states
+        # ----------------------- Determine state traversal order starting from initial states ------------------------#
         table_ordered_states = []
         visited = set()
         queue = list(self.initial_states)  # Start with initial states
@@ -144,11 +149,11 @@ class Automate:
             if state not in visited:
                 table_ordered_states.append(state)
 
-    #### Step 3: Prepare headers
+        # ----------------------------------------- Step 3: Prepare headers -------------------------------------------#
         headers = ["", "State"] + self.alphabet
         col_widths = [len(str(header)) for header in headers]
 
-    #### Step 4: Prepare table rows
+        # ------------------------------------- Step 4: Prepare table rows --------------------------------------------#
         table_rows = []
         for state in table_ordered_states:  # Use the ordered states instead of self.states
             # Determine E, S, or ES
@@ -172,32 +177,31 @@ class Automate:
                 # Use function_to_sort to handle mixed types
                 row.append(",".join(map(str, Automate.function_to_sort(destinations))) if destinations else "-")
 
-    ######### Step 6: Adjust column width
+        # -------------------------------------- Step 6: Adjust column width ------------------------------------------#
             for i, value in enumerate(row):
                 col_widths[i] = max(col_widths[i], len(value))
 
             table_rows.append(row)
 
-    ##### Step 7: Print the formatted table
+        # ----------------------------------- Step 7: Print the formatted table ---------------------------------------#
         header_row = " | ".join(header.ljust(col_widths[i]) for i, header in enumerate(headers))
         print(header_row)
         print("-" * len(header_row))  # Separator line
         for row in table_rows:
             print(" | ".join(row[i].ljust(col_widths[i]) for i in range(len(row))))
 
-    ################################################################################################################
-    # Fonction qui vérifient si l'automate valide une condition (standard, complet, déterministe)
-    ################################################################################################################
+########################################################################################################################
+    # Functions that check if the automaton satisfies X condition (standard, complete, determinised)
+########################################################################################################################
 
     def is_standard(self):
-        """
-        Checks if the automaton is standardised.
+        """ Checks if the automaton is standardised.
         An automaton is standardised if:
         1. It has only one initial state
         2. No transitions lead to the initial state
 
-        :return: bool - True if the automaton is standardised, False otherwise
-        """
+        :return: bool - True if the automaton is standardised, False otherwise """
+
         # Check if there is exactly one initial state
         if len(self.initial_states) != 1:
             return False
@@ -214,14 +218,14 @@ class Automate:
         return True
 
     def is_determinist(self):
-        """
-        Checks if the automaton is deterministic.
+        """ Checks if the automaton is deterministic.
         An automaton is deterministic if:
         1. It has only one initial state
         2. For each state and each symbol, there is at most one transition
         3. There are no epsilon transitions
 
         :return: bool - True if the automaton is deterministic, False otherwise """
+
         # Check if there is more than one initial state
         if len(self.initial_states) != 1:
             return False
@@ -241,15 +245,13 @@ class Automate:
 
         return True
 
-
     def is_complete(self):
-        """
-        Checks if the automaton is complete.
+        """ Checks if the automaton is complete.
         An automaton is complete if for each state and each symbol in the alphabet,
         there exists at least one outgoing transition.
 
-        :return: bool - True if the automaton is complete, False otherwise
-        """
+        :return: bool - True if the automaton is complete, False otherwise """
+
         # For each state, check if there's a transition for each symbol in the alphabet
         for state in self.states:
             for symbol in self.alphabet:
@@ -262,19 +264,16 @@ class Automate:
 
         return True
 
-
-####################################################################################################################
+########################################################################################################################
     # Fonctions qui modifient l'automate
-####################################################################################################################
-
+########################################################################################################################
 
     def standardise(self):
-        """
-        Standardises the automaton by creating a new initial state with epsilon transitions
+        """ Standardises the automaton by creating a new initial state with epsilon transitions
         to all original initial states, and ensuring no transitions lead to the initial state.
 
-        :return: A new standardised automaton
-        """
+        :return: A new standardised automaton """
+
         # If the automaton is already standardised, return a copy
         if self.is_standard():
             return self
@@ -308,27 +307,20 @@ class Automate:
             states=new_states,
             initial_states=[new_initial],
             final_states=self.final_states.copy(),
-            transitions=new_transitions
-        )
+            transitions=new_transitions )
 
         return standardised
 
-
-
     def determinise(self):
-        """
-        Transforms the automaton into an equivalent deterministic automaton.
+        """ Transforms the automaton into an equivalent deterministic automaton.
         This method builds a new automaton from the current one while preserving state names.
         Composite states like {9,19} will be named '919'.
 
-        :return: A new deterministic automaton
-        """
-
+        :return: A new deterministic automaton """
 
         if self.is_determinist():
             # If the automaton is already deterministic, return a copy
             return self
-
 
         ################################################################################################################
         #First Step : Andle epsilon transition, and make structure that list epsilon cloture state to link them after
@@ -355,14 +347,12 @@ class Automate:
         initial_epsilon_state_tuple = tuple(Automate.function_to_sort(initial_epsilon_state))
 
         ################################################################################################################
-        # Second Step : create new state who combine ancient state for the new determinise automaton
+        # Second Step : create new state who combine ancient state for the new determinised automaton
         ################################################################################################################
         dico_new_states = {}  #
         states_to_process = [initial_epsilon_state_tuple]
         processed_states = set()
         new_transitions = []
-
-
 
         # First pass: Generate all the new state names
         while states_to_process:
@@ -424,7 +414,7 @@ class Automate:
                     new_transitions.append((current_state_name, symbol, next_state_name))
 
         ################################################################################################################
-        # Last step : find new itnitial state and final state
+        # Last step : find new initial state and final state
         ################################################################################################################
         new_states = list(dico_new_states.values())
 
@@ -444,20 +434,14 @@ class Automate:
             states=new_states,
             initial_states=new_initial_states,
             final_states=new_final_states,
-            transitions=new_transitions
-        )
-
-
-
-    # Fix for the complete() method in Classe_Automate.py
+            transitions=new_transitions )
 
     def complete(self):
-        """
-        Completes the automaton by adding a sink state and missing transitions.
+        """ Completes the automaton by adding a sink state and missing transitions.
         Unlike the determinise() method, this does not determinise the automaton first.
 
-        :return: A new complete automaton
-        """
+        :return: A new complete automaton """
+
         # Create a copy of the automaton
         automate = Automate(
             num_automate=self.num_automate,
@@ -466,8 +450,7 @@ class Automate:
             initial_states=self.initial_states.copy(),
             final_states=self.final_states.copy(),
             transitions=[(s, sym, d) for s in self.transitions for sym in self.transitions[s] for d in
-                         self.transitions[s][sym]]
-        )
+                         self.transitions[s][sym]] )
 
         # Check if the automaton is already complete
         if automate.is_complete():
@@ -510,13 +493,10 @@ class Automate:
         return automate
 
     def minimise(self):
-        """
-        Minimises the automaton using Moore's algorithm.
-        The automaton must be deterministic and complete.
+        """ Minimises the automaton. The automaton must be deterministic and complete.
 
-        Returns:
-        - A new minimised automaton
-        """
+        :return: A new minimised automaton """
+
         ################################################################################################################
         # Preliminary Step : Check the condition to minimise the automaton :
         ################################################################################################################
@@ -525,7 +505,7 @@ class Automate:
             automaton = self.determinise()
         else:
             automaton = self
-    # Dans notre version de notre projet on peut compléter et déterminiser séparément
+    # !!!! IN OUR PROJECT WE CAN COMPLETE AND DETERMINISE SEPERATELY THIS IS A DESIGN CHOICE !!!!
         if not automaton.is_complete():
             print("The automaton must be complete, making completion : ")
             automaton = automaton.complete()
@@ -533,7 +513,7 @@ class Automate:
         print("Minimisation : ")
 
         ################################################################################################################
-        # First step : Create the first group (teta) terminal State or none terminale state
+        # First step : Create the first group (theta) terminal State or none terminale state
         ################################################################################################################
         current_teta = {}
         for state in automaton.states:
@@ -550,10 +530,9 @@ class Automate:
             print(f"Teta number {cpt}: {current_teta}")
 
             ################################################################################################################
-            # Second Step : Make a loop  to create new teta until the automaton is minimised
+            # Second Step : Make a loop  to create new theta until the automaton is minimised
             ################################################################################################################
             new_teta = {}
-
             # For each state, create a key based on its current class and transition targets
             keys = {}
             ################################################################################################################
@@ -659,23 +638,19 @@ class Automate:
             states=new_states,
             initial_states=new_initial_states,
             final_states=new_final_states,
-            transitions=new_transitions
-        )
+            transitions=new_transitions)
 
         return minimised_automaton
 
     def recognise_word(self, word):
-        """
-        Tests if a word is accepted by the automaton.
+        """ Tests if a word is accepted by the automaton.
         This implementation works for both deterministic and non-deterministic automata,
         and properly handles epsilon transitions.
 
-        Args:
-            word (str): The word to test
+        :param word: (str) The word to test
 
-        Returns:
-            bool: True if the word is accepted, False otherwise
-        """
+        :return: BOOL True if the word is accepted, False otherwise """
+
         # Collect all epsilon transitions
         epsilon_transitions = []
         for state in self.states:
@@ -712,13 +687,10 @@ class Automate:
         return any(state in self.final_states for state in current_states)
 
     def complement(self):
-        """
-        Creates the complement of the automaton.
+        """ Creates the complement of the automaton.
         The complement automaton accepts all words that are not accepted by the original automaton.
 
-        Returns:
-            Automate: The complement automaton
-        """
+        :return: Automate -> The complement automaton """
 
         if not self.is_determinist():
             print("Warning: The automaton should be deterministic for complement to work correctly.")
@@ -732,24 +704,22 @@ class Automate:
             print("Completing the automaton...")
             automaton = automaton.complete()
 
-
         new_final_states = [state for state in self.states if state not in self.final_states]
 
-        # Extraire les transitions au format attendu par l'initialisation
+        # Extract the transitions in the expected format
         transitions_list = []
         for source in automaton.transitions:
             for symbol in automaton.transitions[source]:
                 for destination in automaton.transitions[source][symbol]:
                     transitions_list.append((source, symbol, destination))
 
-        # Créer l'automate complémentaire
+        # Create the complementary automaton
         complement_automaton = Automate(
             num_automate=automaton.num_automate,
             alphabet=automaton.alphabet,
             states=automaton.states.copy(),
             initial_states=automaton.initial_states.copy(),
             final_states=new_final_states,
-            transitions=transitions_list
-        )
+            transitions=transitions_list)
 
         return complement_automaton
