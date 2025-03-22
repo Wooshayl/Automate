@@ -694,14 +694,12 @@ class Automate:
 
         if not self.is_determinist():
             print("Warning: The automaton should be deterministic for complement to work correctly.")
-            print("Determinising the automaton...")
             automaton = self.determinise()
         else:
             automaton = self
 
         if not automaton.is_complete():
             print("Warning: The automaton should be complete for complement to work correctly.")
-            print("Completing the automaton...")
             automaton = automaton.complete()
 
         new_final_states = [state for state in self.states if state not in self.final_states]
