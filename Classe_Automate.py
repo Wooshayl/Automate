@@ -1,5 +1,7 @@
-from Class_FileParser import FileParser  # Import the class that reads files
+# IMPORTANT : We designed our code so that it is possible to complete an automaton before determinising it
+# This is simply a design choice that we went with
 
+from Class_FileParser import FileParser  # Import the class that reads files
 
 class Automate:
 
@@ -69,7 +71,7 @@ class Automate:
     def generate_state_name(states_tuple):
         """ Generate a name for a composite state by concatenating the names of individual states.
 
-        This function is primarily used during the determinization process to create names
+        This function is primarily used during the determinisation process to create names
         for new states that represent multiple states from the original automaton.
         For example, a tuple of states (1, 2, 3) would generate the name '123'.
 
@@ -265,7 +267,7 @@ class Automate:
         return True
 
 ########################################################################################################################
-    # Fonctions qui modifient l'automate
+    # Functions that modify the automaton
 ########################################################################################################################
 
     def standardise(self):
@@ -323,7 +325,7 @@ class Automate:
             return self
 
         ################################################################################################################
-        #First Step : Andle epsilon transition, and make structure that list epsilon cloture state to link them after
+        # First Step : Andle epsilon transition, and make structure that list epsilon cloture state to link them after
         ################################################################################################################
 
         # Handle epsilon transitions first
@@ -515,24 +517,24 @@ class Automate:
         ################################################################################################################
         # First step : Create the first group (theta) terminal State or none terminale state
         ################################################################################################################
-        current_teta = {}
+        current_theta = {}
         for state in automaton.states:
             if state in automaton.final_states:
-                current_teta[state] = 1  # Final states
+                current_theta[state] = 1  # Final states
             else:
-                current_teta[state] = 0  # Non-final states
+                current_theta[state] = 0  # Non-final states
 
         # Start the refinement process
         cpt = 1
         stable = False
 
         while not stable:
-            print(f"Teta number {cpt}: {current_teta}")
+            print(f"Teta number {cpt}: {current_theta}")
 
             ################################################################################################################
             # Second Step : Make a loop  to create new theta until the automaton is minimised
             ################################################################################################################
-            new_teta = {}
+            new_theta = {}
             # For each state, create a key based on its current class and transition targets
             keys = {}
             ################################################################################################################
@@ -540,15 +542,15 @@ class Automate:
             ################################################################################################################
             for state in automaton.states:
                 # Start with the current class
-                key = [current_teta[state]]
+                key = [current_theta[state]]
 
                 # For each symbol, add the class of the target state
                 for transition_letter in automaton.alphabet:
                     if state in automaton.transitions and transition_letter in automaton.transitions[state]:
                         target_state = automaton.transitions[state][transition_letter]
-                        key.append((transition_letter, current_teta[target_state[0]]))
+                        key.append((transition_letter, current_theta[target_state[0]]))
 
-                # Store the signature as a tuple (hashable) and avoid double
+                # Store the signature as a tuple
                 key_tuple = tuple(key)
                 keys[state] = key_tuple
         ################################################################################################################
@@ -567,24 +569,23 @@ class Automate:
             new_class = 0
             for key, states in key_groups.items():
                 for state in states:
-                    new_teta[state] = new_class
+                    new_theta[state] = new_class
                 new_class += 1
 
             # Check if the partition is stable
-            if new_teta == current_teta:
+            if new_theta == current_theta:
                 stable = True
             else:
-                current_teta = new_teta
+                current_theta = new_theta
 
             cpt += 1
-
 
         print("Minimisation completed : ")
 
         # Build the minimised automaton
         # Group states by their equivalence class
         different_classes = {}
-        for state, class_number in current_teta.items():
+        for state, class_number in current_theta.items():
             if class_number not in different_classes:
                 different_classes[class_number] = []
             different_classes[class_number].append(state)
@@ -627,7 +628,7 @@ class Automate:
                     target_states = automaton.transitions[representative][symbol]
                     if target_states:
                         target_state = target_states[0]
-                        target_class = current_teta[target_state]
+                        target_class = current_theta[target_state]
                         target_state_name = class_to_state[target_class]
                         new_transitions.append((source_state, symbol, target_state_name))
 
